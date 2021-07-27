@@ -1,6 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace RoRuCalendarN
 {
@@ -9,7 +7,8 @@ namespace RoRuCalendarN
         public App()
         {
             InitializeComponent();
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new MainPage());
+            ((NavigationPage)MainPage).BarBackgroundColor = Color.FromHex("#E87400");
         }
         protected override void OnStart() { }
         protected override void OnSleep() { }

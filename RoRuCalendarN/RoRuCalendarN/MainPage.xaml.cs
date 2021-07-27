@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using System.Text;
+using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 using Xamarin.Forms;
 
@@ -8,18 +9,21 @@ namespace RoRuCalendarN
 {
     public partial class MainPage : ContentPage
     {
+        /// <summary>
+        /// Разбор страницы "Календарь покатушек"
+        /// </summary>
+        /// <returns></returns>
         private HtmlWebViewSource GetSourseHtml()
         {
-            string html = @"https://www.roller.ru/forum/pokatushki.php";
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(html);
+            string htmllink = @"https://www.roller.ru/forum/pokatushki.php";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(htmllink);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(1251));
             string silehtml = sr.ReadToEnd();
             sr.Close();
 
-            //Parse the stream
-            var parser = new HtmlParser();
-            var document = parser.ParseDocument(silehtml);
+            HtmlParser parser = new HtmlParser();
+            IHtmlDocument document = parser.ParseDocument(silehtml);
 
             string newhtml = "<html>\n" +
                 "<style>\n" +
@@ -57,20 +61,21 @@ namespace RoRuCalendarN
                         curhtml = curhtml.Replace("/ воскресенье</div>", "/ Вс</div>");
 
                         newhtml += $"<tr valign=\"top\">{curhtml}</tr>\n";
-
-
                     }
                 }
-
             }
-            newhtml += "</tbody></table></body></html>";
-            var localhtml = new HtmlWebViewSource();
-            localhtml.Html = newhtml;
 
-            return localhtml;
+            newhtml += "</tbody></table></body></html>";
+
+            HtmlWebViewSource htmlwebviewsource = new HtmlWebViewSource { Html = newhtml };
+
+            return htmlwebviewsource;
         }
 
-
+        /// <summary>
+        /// Нажатие кнопки "Назад"
+        /// </summary>
+        /// <returns></returns>
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
@@ -95,10 +100,16 @@ namespace RoRuCalendarN
                 Source = GetSourseHtml(),
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
-            ToolbarItems.Add(new ToolbarItem("Refresh", "", () => { webView.Source = GetSourseHtml(); }));
-            ToolbarItems.Add(new ToolbarItem("Back", "", () => { webView.GoBack(); }));
+
+            ToolbarItems.Add(new ToolbarItem("Обновить", "", () => { webView.Source = GetSourseHtml(); }));
+            ToolbarItems.Add(new ToolbarItem("Назад", "", () => { webView.GoBack(); }));
 
             this.Content = new StackLayout { Children = { webView } };
+        }
+
+        private void Refresh_Clicked(object sender, System.EventArgs e)
+        {
+            webView.Source = GetSourseHtml();
         }
     }
 }
