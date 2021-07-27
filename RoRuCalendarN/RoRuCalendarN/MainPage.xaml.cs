@@ -35,6 +35,7 @@ namespace RoRuCalendarN
                 "        .day{font-size:12px;font-weight:bold;color:#666666;}\n" +
                 "        .holiday{font-size:12px;font-weight:bold;color:#E87400;}\n" +
                 "        .event a, .event a:visited{color:#6c7f03;}\n" +
+                "        .frm{color:#E87400;text-align: center;}\n" +
                 "    </style>\n" +
                 "<body><h1>Календарь покатушек</h1>\n";
             newhtml += "<table border=\"0\" cellpadding=\"5\" cellspacing=\"0\"><tbody>\n";
@@ -66,7 +67,7 @@ namespace RoRuCalendarN
                     }
                 }
             }
-
+            newhtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"frm\"><a href=\"https://www.roller.ru/forum/\">Форум</a></td></tr>\n";
             newhtml += "</tbody></table></body></html>";
 
             HtmlWebViewSource htmlwebviewsource = new HtmlWebViewSource { Html = newhtml };
