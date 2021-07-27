@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using System.Text;
+using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 using Xamarin.Forms;
@@ -18,6 +19,7 @@ namespace RoRuCalendarN
             string htmllink = @"https://www.roller.ru/forum/pokatushki.php";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(htmllink);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            
             StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(1251));
             string silehtml = sr.ReadToEnd();
             sr.Close();
@@ -37,20 +39,20 @@ namespace RoRuCalendarN
                 "<body><h1>Календарь покатушек</h1>\n";
             newhtml += "<table border=\"0\" cellpadding=\"5\" cellspacing=\"0\"><tbody>\n";
 
-            foreach (var element in document.QuerySelectorAll("div[class='content']"))
+            foreach (IElement el in document.QuerySelectorAll("div[class='content']"))
             {
-                var subdocument = parser.ParseDocument(element.InnerHtml);
+                IHtmlDocument subdocument = parser.ParseDocument(el.InnerHtml);
                 bool isadd = true;
-                foreach (var subelement in subdocument.QuerySelectorAll("tr"))
+                foreach (IElement subel in subdocument.QuerySelectorAll("tr"))
                 {
-                    if (subelement.InnerHtml.ToUpper().Contains("ДАЛЕКОЕ БУДУЩЕЕ")
-                        || subelement.InnerHtml.ToUpper().Contains("ПРОШЕДШИЕ ПОКАТУШКИ")
-                        || subelement.InnerHtml.ToUpper().Contains("ДОБАВИТЬ ПОКАТУШКУ"))
+                    if (subel.InnerHtml.ToUpper().Contains("ДАЛЕКОЕ БУДУЩЕЕ")
+                        || subel.InnerHtml.ToUpper().Contains("ПРОШЕДШИЕ ПОКАТУШКИ")
+                        || subel.InnerHtml.ToUpper().Contains("ДОБАВИТЬ ПОКАТУШКУ"))
                         isadd = false;
 
                     if (isadd)
                     {
-                        string curhtml = subelement.InnerHtml.Replace("/forum/viewtopic.php?t=", "https://www.roller.ru/forum/viewtopic.php?t=");
+                        string curhtml = subel.InnerHtml.Replace("/forum/viewtopic.php?t=", "https://www.roller.ru/forum/viewtopic.php?t=");
 
                         curhtml = curhtml.Replace("/ понедельник</div>", "/ Пн</div>");
                         curhtml = curhtml.Replace("/ вторник</div>", "/ Вт</div>");
@@ -104,12 +106,7 @@ namespace RoRuCalendarN
             ToolbarItems.Add(new ToolbarItem("Обновить", "", () => { webView.Source = GetSourseHtml(); }));
             ToolbarItems.Add(new ToolbarItem("Назад", "", () => { webView.GoBack(); }));
 
-            this.Content = new StackLayout { Children = { webView } };
-        }
-
-        private void Refresh_Clicked(object sender, System.EventArgs e)
-        {
-            webView.Source = GetSourseHtml();
+            Content = new StackLayout { Children = { webView } };
         }
     }
 }
