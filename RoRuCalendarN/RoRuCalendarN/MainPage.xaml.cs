@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using AngleSharp.Dom;
@@ -10,6 +12,51 @@ namespace RoRuCalendarN
 {
     public partial class MainPage : ContentPage
     {
+
+        /// <summary>
+        /// Получаем отметившихся "Я еду"
+        /// </summary>
+        /// <param name="linkpost"></param>
+        /// <returns></returns>
+        private string GetUsersPost(string htmllink)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(htmllink);
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            StreamReader sr = new StreamReader(response.GetResponseStream());
+            string silehtml = sr.ReadToEnd();
+            sr.Close();
+
+            HtmlParser parser = new HtmlParser();
+            IHtmlDocument document = parser.ParseDocument(silehtml);
+            string newhtml = "";
+            foreach (IElement el in document.QuerySelectorAll("table[class='tablebg']"))
+            {
+                IHtmlDocument subdocument = parser.ParseDocument(el.InnerHtml);
+                foreach (IElement subel in subdocument.QuerySelectorAll("td[class='row']"))
+                {
+                    IHtmlDocument tr = parser.ParseDocument(subel.InnerHtml);
+                    foreach (IElement trel in tr.QuerySelectorAll("table>tbody>tr"))
+                    {
+                        IHtmlDocument td = parser.ParseDocument(trel.InnerHtml);
+                        foreach (IElement tdel in tr.QuerySelectorAll("span[class='postbody']"))
+                        {
+                            newhtml = "";
+                            IHtmlDocument user = parser.ParseDocument(tdel.InnerHtml);
+                            foreach (IElement uel in user.QuerySelectorAll("a").OfType<IHtmlAnchorElement>().ToList())
+                            {
+                                newhtml += $"{uel.InnerHtml}; ";
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+            return newhtml;
+        }
+
         /// <summary>
         /// Разбор страницы "Календарь покатушек"
         /// </summary>
@@ -19,7 +66,7 @@ namespace RoRuCalendarN
             string htmllink = @"https://www.roller.ru/forum/pokatushki.php";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(htmllink);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            
+
             StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(1251));
             string silehtml = sr.ReadToEnd();
             sr.Close();
@@ -55,6 +102,19 @@ namespace RoRuCalendarN
                     {
                         string curhtml = subel.InnerHtml.Replace("/forum/viewtopic.php?t=", "https://www.roller.ru/forum/viewtopic.php?t=");
 
+                        #region Список участников
+                        string usershtml = string.Empty;
+                        if (curhtml.Contains("viewtopic.php"))
+                        {
+                            IHtmlDocument ldocument = parser.ParseDocument(curhtml);
+                            foreach (IElement lel in ldocument.QuerySelectorAll("a").OfType<IHtmlAnchorElement>().ToList())
+                            {
+                                string linkpost = ((IHtmlAnchorElement)lel).Href;
+                                usershtml = GetUsersPost(linkpost);
+                            }
+                        }
+                        #endregion
+
                         curhtml = curhtml.Replace("/ понедельник</div>", "/ Пн</div>");
                         curhtml = curhtml.Replace("/ вторник</div>", "/ Вт</div>");
                         curhtml = curhtml.Replace("/ среда</div>", "/ Ср</div>");
@@ -64,6 +124,9 @@ namespace RoRuCalendarN
                         curhtml = curhtml.Replace("/ воскресенье</div>", "/ Вс</div>");
 
                         newhtml += $"<tr valign=\"top\">{curhtml}</tr>\n";
+
+                        if(!string.IsNullOrEmpty(usershtml))
+                        newhtml += $"<tr valign=\"top\"><td colspan=\"2\"></td><td class=\"event\">{usershtml}</td></tr>";
                     }
                 }
             }
