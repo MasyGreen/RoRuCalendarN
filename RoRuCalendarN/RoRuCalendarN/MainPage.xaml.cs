@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -24,37 +25,56 @@ namespace RoRuCalendarN
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             StreamReader sr = new StreamReader(response.GetResponseStream());
-            string silehtml = sr.ReadToEnd();
+            string srhtml = sr.ReadToEnd();
             sr.Close();
 
             HtmlParser parser = new HtmlParser();
-            IHtmlDocument document = parser.ParseDocument(silehtml);
-            string newhtml = "";
-            foreach (IElement el in document.QuerySelectorAll("table[class='tablebg']"))
+            List<string> memberlist = new List<string>();
+            IHtmlDocument doc01 = parser.ParseDocument(srhtml);
+            foreach (IElement el01 in doc01.QuerySelectorAll("table[class='tablebg']"))
             {
-                IHtmlDocument subdocument = parser.ParseDocument(el.InnerHtml);
-                foreach (IElement subel in subdocument.QuerySelectorAll("td[class='row']"))
+                IHtmlDocument doc02 = parser.ParseDocument(el01.InnerHtml);
+                foreach (IElement el02 in doc02.QuerySelectorAll("td[class='row']"))
                 {
-                    IHtmlDocument tr = parser.ParseDocument(subel.InnerHtml);
-                    foreach (IElement trel in tr.QuerySelectorAll("table>tbody>tr"))
+                    IHtmlDocument doc03 = parser.ParseDocument(el02.InnerHtml);
+                    foreach (IElement el03 in doc03.QuerySelectorAll("table>tbody>tr"))
                     {
-                        IHtmlDocument td = parser.ParseDocument(trel.InnerHtml);
-                        foreach (IElement tdel in tr.QuerySelectorAll("span[class='postbody']"))
+                        IHtmlDocument doc04 = parser.ParseDocument(el03.InnerHtml);
+                        foreach (IElement el04 in doc03.QuerySelectorAll("span[class='postbody']"))
                         {
-                            newhtml = "";
-                            IHtmlDocument user = parser.ParseDocument(tdel.InnerHtml);
-                            foreach (IElement uel in user.QuerySelectorAll("a").OfType<IHtmlAnchorElement>().ToList())
+                            IHtmlDocument doc05 = parser.ParseDocument(el04.InnerHtml);
+                            foreach (IElement el05 in doc05.QuerySelectorAll("a").OfType<IHtmlAnchorElement>().ToList())
                             {
-                                newhtml += $"{uel.InnerHtml}; ";
+                                memberlist.Add($"{el05.InnerHtml}");
                             }
-
                             break;
                         }
                     }
                 }
                 break;
             }
-            return newhtml;
+
+            #region Массив с участниками
+            int curindex = 0;
+            string firstpart = string.Empty;
+            string secondpart = string.Empty;
+            foreach (string member in memberlist.Distinct())
+            {
+                curindex++;
+                if (curindex < 5) firstpart += $"{member}, "; else secondpart += $"{member}, ";
+            }
+            #endregion
+
+            string resulthtml = "";
+            #region Генерация HTML с списком участников (5 первых и остальные hide-more)
+            resulthtml = "<div>\n";
+            resulthtml += $"{firstpart.Trim().TrimEnd(',')}\n";
+            if (!string.IsNullOrEmpty(secondpart))
+                resulthtml += $"<span class=\"more\"> еще...</span>\n<span class=\"expanding\">{secondpart.Trim().TrimEnd(',')}</span>\n";
+            resulthtml += "</div>\n";
+            #endregion
+
+            return resulthtml;
         }
 
         /// <summary>
@@ -68,13 +88,14 @@ namespace RoRuCalendarN
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(1251));
-            string silehtml = sr.ReadToEnd();
+            string srhtml = sr.ReadToEnd();
             sr.Close();
 
             HtmlParser parser = new HtmlParser();
-            IHtmlDocument document = parser.ParseDocument(silehtml);
+            IHtmlDocument doc01 = parser.ParseDocument(srhtml);
 
-            string newhtml = "<html>\n" +
+            #region Начало страницы
+            string resulthtml = "<html>\n" +
                 "<style>\n" +
                 "        body{font-family:Arial,Sans-serif;font-size:12px;color:#666666;}\n" +
                 "        h1{font-size:20px;color:#E87400;text-align: center;}\n" +
@@ -83,38 +104,32 @@ namespace RoRuCalendarN
                 "        .holiday{font-size:12px;font-weight:bold;color:#E87400;}\n" +
                 "        .event a, .event a:visited{color:#6c7f03;}\n" +
                 "        .frm{color:#E87400;text-align: center;}\n" +
+                "        .crop{overflow: hidden;white-space:nowrap;text-overflow: ellipsis;width: 150px;}\n" +
+                "        .more{display:block;}\n" +
+                "        .expanding{display: none;}\n" +
+                "        div:hover>.expanding{display:block;}\n" +
+                "        div:hover>.more{display: none;}" +
                 "    </style>\n" +
                 "<body><h1>Календарь покатушек</h1>\n";
-            newhtml += "<table border=\"0\" cellpadding=\"5\" cellspacing=\"0\"><tbody>\n";
+            resulthtml += "<table border=\"0\" cellpadding=\"5\" cellspacing=\"0\"><tbody>\n";
+            #endregion
 
-            foreach (IElement el in document.QuerySelectorAll("div[class='content']"))
+            foreach (IElement el01 in doc01.QuerySelectorAll("div[class='content']"))
             {
-                IHtmlDocument subdocument = parser.ParseDocument(el.InnerHtml);
+                IHtmlDocument doc02 = parser.ParseDocument(el01.InnerHtml);
                 bool isadd = true;
-                foreach (IElement subel in subdocument.QuerySelectorAll("tr"))
+                foreach (IElement el02 in doc02.QuerySelectorAll("tr"))
                 {
-                    if (subel.InnerHtml.ToUpper().Contains("ДАЛЕКОЕ БУДУЩЕЕ")
-                        || subel.InnerHtml.ToUpper().Contains("ПРОШЕДШИЕ ПОКАТУШКИ")
-                        || subel.InnerHtml.ToUpper().Contains("ДОБАВИТЬ ПОКАТУШКУ"))
+                    if (el02.InnerHtml.ToUpper().Contains("ДАЛЕКОЕ БУДУЩЕЕ")
+                        || el02.InnerHtml.ToUpper().Contains("ПРОШЕДШИЕ ПОКАТУШКИ")
+                        || el02.InnerHtml.ToUpper().Contains("ДОБАВИТЬ ПОКАТУШКУ"))
                         isadd = false;
 
                     if (isadd)
                     {
-                        string curhtml = subel.InnerHtml.Replace("/forum/viewtopic.php?t=", "https://www.roller.ru/forum/viewtopic.php?t=");
+                        string curhtml = el02.InnerHtml.Replace("/forum/viewtopic.php?t=", "https://www.roller.ru/forum/viewtopic.php?t=");
 
-                        #region Список участников
-                        string usershtml = string.Empty;
-                        if (curhtml.Contains("viewtopic.php"))
-                        {
-                            IHtmlDocument ldocument = parser.ParseDocument(curhtml);
-                            foreach (IElement lel in ldocument.QuerySelectorAll("a").OfType<IHtmlAnchorElement>().ToList())
-                            {
-                                string linkpost = ((IHtmlAnchorElement)lel).Href;
-                                usershtml = GetUsersPost(linkpost);
-                            }
-                        }
-                        #endregion
-
+                        #region Сокращение дат
                         curhtml = curhtml.Replace("/ понедельник</div>", "/ Пн</div>");
                         curhtml = curhtml.Replace("/ вторник</div>", "/ Вт</div>");
                         curhtml = curhtml.Replace("/ среда</div>", "/ Ср</div>");
@@ -122,18 +137,32 @@ namespace RoRuCalendarN
                         curhtml = curhtml.Replace("/ пятница</div>", "/ Пт</div>");
                         curhtml = curhtml.Replace("/ суббота</div>", "/ Сб</div>");
                         curhtml = curhtml.Replace("/ воскресенье</div>", "/ Вс</div>");
+                        #endregion
 
-                        newhtml += $"<tr valign=\"top\">{curhtml}</tr>\n";
+                        resulthtml += $"<tr valign=\"top\">{curhtml}</tr>\n";
 
-                        if(!string.IsNullOrEmpty(usershtml))
-                        newhtml += $"<tr valign=\"top\"><td colspan=\"2\"></td><td class=\"event\">{usershtml}</td></tr>";
+                        #region Список участников
+                        string membrrhtml = string.Empty;
+                        if (curhtml.Contains("viewtopic.php"))
+                        {
+                            IHtmlDocument topiclist = parser.ParseDocument(curhtml);
+                            foreach (IElement topic in topiclist.QuerySelectorAll("a").OfType<IHtmlAnchorElement>().ToList())
+                            {
+                                string topiclink = ((IHtmlAnchorElement)topic).Href;
+                                membrrhtml = GetUsersPost(topiclink);
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(membrrhtml))
+                            resulthtml += $"<tr valign=\"top\"><td colspan=\"2\"></td><td class=\"event\">{membrrhtml}</td></tr>";
+                        #endregion
                     }
                 }
             }
-            newhtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"frm\"><a href=\"https://www.roller.ru/forum/\">Форум</a></td></tr>\n";
-            newhtml += "</tbody></table></body></html>";
 
-            HtmlWebViewSource htmlwebviewsource = new HtmlWebViewSource { Html = newhtml };
+            resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"frm\"><a href=\"https://www.roller.ru/forum/\">Форум</a></td></tr>\n";
+            resulthtml += "</tbody></table></body></html>";
+
+            HtmlWebViewSource htmlwebviewsource = new HtmlWebViewSource { Html = resulthtml };
 
             return htmlwebviewsource;
         }
