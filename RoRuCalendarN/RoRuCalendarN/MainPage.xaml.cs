@@ -7,13 +7,13 @@ using System.Text;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RoRuCalendarN
 {
     public partial class MainPage : ContentPage
     {
-
         /// <summary>
         /// Получаем отметившихся "Я еду"
         /// </summary>
@@ -97,18 +97,20 @@ namespace RoRuCalendarN
             #region Начало страницы
             string resulthtml = "<html>\n" +
                 "<style>\n" +
-                "        body{font-family:Arial,Sans-serif;font-size:12px;color:#666666;}\n" +
-                "        h1{font-size:20px;color:#E87400;text-align: center;}\n" +
-                "        .month{font-size:14px;font-weight:bold;color:#666666;padding-top:5px;padding-bottom:20px;text-align: center;}\n" +
-                "        .day{font-size:12px;font-weight:bold;color:#666666;}\n" +
-                "        .holiday{font-size:12px;font-weight:bold;color:#E87400;}\n" +
-                "        .event a, .event a:visited{color:#6c7f03;}\n" +
-                "        .frm{color:#E87400;text-align: center;}\n" +
-                "        .crop{overflow: hidden;white-space:nowrap;text-overflow: ellipsis;width: 150px;}\n" +
-                "        .more{display:block;}\n" +
-                "        .expanding{display: none;}\n" +
-                "        div:hover>.expanding{display:block;}\n" +
-                "        div:hover>.more{display: none;}" +
+                "       body{font-family:Arial,Sans-serif;font-size:12px;color:#666666;}\n" +
+                "       h1{font-size:20px;color:#E87400;text-align: center;}\n" +
+                "       .month{font-size:14px;font-weight:bold;color:#666666;padding-top:5px;padding-bottom:20px;text-align: center;}\n" +
+                "       .day{font-size:12px;font-weight:bold;color:#666666;}\n" +
+                "       .holiday{font-size:12px;font-weight:bold;color:#E87400;}\n" +
+                "       .event a, .event a:visited{color:#6c7f03;}\n" +
+                "       .frm{color:#E87400;text-align: center;}\n" +
+                "       .crop{overflow: hidden;white-space:nowrap;text-overflow: ellipsis;width: 150px;}\n" +
+                "       .more{display:block;}\n" +
+                "       .expanding{display: none;}\n" +
+                "       div:hover>.expanding{display:block;}\n" +
+                "       div:hover>.more{display: none;}\n" +
+                "       .member{font-size: 12px;font-style: italic;color:gray;}\n" +
+                "       .linebreak {border-bottom:1px solid lightgray;}\n" +
                 "    </style>\n" +
                 "<body><h1>Календарь покатушек</h1>\n";
             resulthtml += "<table border=\"0\" cellpadding=\"5\" cellspacing=\"0\"><tbody>\n";
@@ -153,13 +155,19 @@ namespace RoRuCalendarN
                             }
                         }
                         if (!string.IsNullOrEmpty(membrrhtml))
-                            resulthtml += $"<tr valign=\"top\"><td colspan=\"2\"></td><td class=\"event\">{membrrhtml}</td></tr>";
+                            resulthtml += $"<tr valign=\"top\"><td colspan=\"2\"></td><td class=\"member\">{membrrhtml}</td></tr>";
                         #endregion
+
+                        //Разделитель
+                        if (curhtml.Contains("viewtopic.php"))
+                            resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"linebreak\"></td></tr>\n";
                     }
                 }
             }
 
-            resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"frm\"><a href=\"https://www.roller.ru/forum/\">Форум</a></td></tr>\n";
+            resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"frm\"><a href=\"https://www.roller.ru/forum/\">Форум. Главная страница</a></td></tr>\n";
+            resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"line -break\"></td></tr>\n";
+            resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"frm\">masygreen &copy; 2021</td></tr>\n";
             resulthtml += "</tbody></table></body></html>";
 
             HtmlWebViewSource htmlwebviewsource = new HtmlWebViewSource { Html = resulthtml };
@@ -195,6 +203,12 @@ namespace RoRuCalendarN
                 Source = GetSourseHtml(),
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
+
+            ToolbarItems.Add(new ToolbarItem("Instagram", "instagram.png", () => { Browser.OpenAsync("https://www.instagram.com/roller.ru", BrowserLaunchMode.SystemPreferred); }));
+            ToolbarItems.Add(new ToolbarItem("Telegram", "telegram.png", () => { Browser.OpenAsync("https://t.me/mskrollerru", BrowserLaunchMode.SystemPreferred); }));
+            ToolbarItems.Add(new ToolbarItem("VK", "vk.png", () => { Browser.OpenAsync("https://vk.com/mskroller ", BrowserLaunchMode.SystemPreferred); }));
+
+            ToolbarItems.Add(new ToolbarItem("|", "", () => { }));
 
             ToolbarItems.Add(new ToolbarItem("Обновить", "", () => { webView.Source = GetSourseHtml(); }));
             ToolbarItems.Add(new ToolbarItem("Назад", "", () => { webView.GoBack(); }));
