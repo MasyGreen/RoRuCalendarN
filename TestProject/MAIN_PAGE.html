@@ -1,0 +1,1901 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=windows-1251">
+    <meta name="description" content="покатушки на роликах в Москве">
+    <meta http-equiv="keywords" name="Keywords" content="">
+    <title>Roller.ru - календарь покатушек </title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+    <link rel="stylesheet" href="/roller.css" type="text/css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/new.css">
+    <link rel="alternate" type="application/rss+xml" title="Новости сайта" href="http://roller.ru/rss.php">
+    <style>
+        #picturebox {
+            position: absolute;
+            z-index: 10;
+            top: 50px;
+            VISIBILITY: hidden;
+            background-color: white;
+            align: center;
+        }
+        
+        #pictureframe {
+            background-color: white;
+            text-align: center;
+            border: 0 solid Gray;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 15px;
+            padding-bottom: 5px;
+            margin 0;
+        }
+        
+        #fon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            background: black;
+            filter: alpha(opacity=70);
+            -moz-opacity: 0.7;
+            -khtml-opacity: 0.7;
+            opacity: 0.7;
+            z-index: 1;
+        }
+    </style>
+    <script type="text/javascript" async="" src="https://mc.yandex.ru/metrika/watch.js"></script>
+    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script>
+    <script type="text/javascript" src="/galery.js"></script>
+
+    <script language="javascript">
+        function ShowLink() {
+            var oTextBox = document.getElementById('BlogLink');
+            if (document.getElementById("BlogLink")) {
+                if (document.getElementById("BlogLink").style.display == 'none') {
+                    document.getElementById("BlogLink").style.display = 'block';
+                    oTextBox.focus();
+                    oTextBox.select();
+                } else {
+                    document.getElementById("BlogLink").style.display = 'none';
+                }
+            }
+
+
+        }
+
+
+
+        // --- картинки
+
+        var CurrentImage = -1;
+        var timeOn;
+        var CurrentImage = -1;
+        var ImageCount = 1;
+        var picts = [];
+
+        function openBigPict(i) {
+            var s = picts[i];
+
+
+
+            document.getElementById("fon").style.width = '100%'; //document.body.clientWidth;
+            document.getElementById("fon").style.height = getDocumentHeight();
+
+            CurrentImage = i;
+
+
+            if (obj = document.getElementById('pic')) {
+                obj.src = s;
+            }
+
+            document.getElementById("picturebox").style.visibility = "visible";
+            document.getElementById("nextimage").style.visibility = "visible";
+            document.getElementById("previmage").style.visibility = "visible";
+            return false;
+
+        }
+
+        function getDocumentHeight() { // getting a real size document with scrolling etc.
+            var doc = document;
+            var height1 = 0,
+                height2 = 0,
+                height3 = 0,
+                height4 = 0,
+                maxHeight = 0;
+
+            if (doc.height) maxHeight = doc.height;
+            if (doc.body) {
+                if (doc.body.scrollHeight) height1 = doc.body.scrollHeight;
+                if (doc.body.offsetHeight) height2 = doc.body.offsetHeight;
+            }
+            if (doc.documentElement) {
+                height3 = doc.documentElement.scrollHeight;
+                height4 = doc.documentElement.clientHeight;
+            }
+            maxHeight = Math.max(Math.max(Math.max(height1, height2), Math.max(height3, height4)), maxHeight);
+            return maxHeight;
+        }
+
+
+
+        function getBodyScrollTop() {
+            return self.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || (document.body && document.body.scrollTop);
+        }
+
+        function ShowNextImage() {
+
+            if (CurrentImage != -1) {
+
+                if (CurrentImage < ImageCount) {
+                    CurrentImage++;
+                } else {
+                    CurrentImage = 0;
+                }
+
+                if (picts[CurrentImage]) {
+                    newsrc = picts[CurrentImage].getAttribute('href');
+                    //todo - caiaieou ia aieuoo? ea?oeieo
+                    obj.src = newsrc;
+                }
+
+            }
+            return false;
+        }
+
+        function ShowPrevImage() {
+            if (CurrentImage != -1) {
+                if (CurrentImage > 0) {
+                    CurrentImage--;
+                } else {
+                    CurrentImage = ImageCount;
+                }
+
+                if (picts[CurrentImage]) {
+                    newsrc = picts[CurrentImage].getAttribute('href');
+
+
+                    obj.src = newsrc;
+                }
+            }
+            return false;
+        }
+
+
+        function hide() {
+            if (timeOn != null) {
+                clearTimeout(timeOn)
+            }
+            document.getElementById("nextimage").style.visibility = "hidden";
+            document.getElementById("previmage").style.visibility = "hidden";
+            document.getElementById("picturebox").style.visibility = "hidden";
+            document.getElementById("fon").style.width = 1;
+            document.getElementById("fon").style.height = 1;
+        }
+
+        function MoveToCenter() {
+            if (timeOn != null) {
+                clearTimeout(timeOn)
+            }
+            var left = (document.body.clientWidth / 2) - document.getElementById("pic").clientWidth / 2 + 10;
+            //	alert(getBodyScrollTop());
+            document.getElementById("picturebox").style.top = getBodyScrollTop() + (document.body.clientHeight / 2 - document.getElementById("pic").clientHeight / 2 - 20);
+            document.getElementById("picturebox").style.left = left;
+            document.getElementById("picturebox").style.width = document.getElementById("pic").clientWidth + 20;
+        }
+
+        // -- /картинки
+    </script>
+
+    <!-- Yandex.Metrika counter -->
+    <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8" async="" src="https://w.uptolike.com/widgets/v1/extra.js?rnd=0.3429650228172527"></script>
+</head>
+
+<body bgcolor="white" text="black" topmargin="0" leftmargin="0" onload="GetBigPicts()">
+    <div style="display:none;">
+        <script type="text/javascript">
+            try {
+                var yaCounter5189 = new Ya.Metrika(5189, null, 1);
+            } catch (e) {}
+        </script>
+    </div>
+    <noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/5189?cnt-class=1" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-17544586-2']);
+        _gaq.push(['_setDomainName', '.roller.ru']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+
+    <div id="picturebox" style="top: 419.5px; left: 961px; width: 21px;">
+        <div id="pictureframe" onclick="hide()"><img src="/image/transp.gif" onload="MoveToCenter()" id="pic"></div>
+        <p align="center"><span id="previmage" style="visibility:hidden"><a href="#" onclick="return ShowPrevImage()"><img src="/image/left.jpg" width="25" height="27" border="0" alt=""></a></span> <span id="nextimage" style="visibility:hidden"><a href="#" onclick="return ShowNextImage()"><img src="/image/right.jpg" width="25" height="27" border="0" alt=""></a></span></p>
+    </div>
+    <div id="fon"></div>
+    <center>
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+                <tr>
+                    <td><img src="/image2008/transp.gif" width="207" height="62" border="0" alt="Roller.ru"></td>
+                    <td><img src="/image2008/transp.gif" height="62" width="80"></td>
+                    <td></td>
+                    <td rowspan="3" align="left">
+                        <table background="/image2008/bg_top.jpg" border="0" cellpadding="0" cellspacing="0" width="712">
+                            <tbody>
+                                <tr>
+                                    <td><img src="/image2008/transp.gif" height="47" width="54"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><img src="/image2008/transp.gif" width="2" height="1" border="0" alt="">
+                                        <!--<img src="/image2008/banner_top_left_frame.gif" width="2" height="1" border="0" alt="">--></td>
+                                    <td hbackground="/image2008/banner_top.gif"><img src="/image2008/transp.gif" width="600" height="1"></td>
+                                    <td abgcolor="white"><img src="/image2008/transp.gif" width="1" height="1"></td>
+                                    <td><img src="/image2008/transp.gif" width="56" height="1"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td zbackground="/image2008/banner_left_frame.gif"><img src="/image2008/transp.gif" width="2" height="60"></td>
+                                    <td><img src="/image2008/transp.gif" width="600" height="1" style="border-color:black;border-width:1px;border_style:solid"></td>
+                                    <td abgcolor="white"><img src="/image2008/transp.gif" width="1" height="1"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="3" abgcolor="white"><img src="/image2008/transp.gif" width="1" height="1"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5"><img src="/image2008/transp.gif" width="713" height="6"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td width="40%" rowspan="3" background="/image2008/bg_top_right.jpg"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="/"><img src="/image2008/logo.gif" width="207" height="64" border="0" alt="Roller.ru"></a>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><img src="/image2008/transp.gif" height="22" width="1"></td>
+                    <td></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </center>
+    <!--меню-->
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" background="/image2008/bg_menu.gif">
+        <tbody>
+            <tr valign="top" align="center">
+                <td><img src="/image2008/bg_menu_separator.gif" width="2" height="40" border="0" alt=""></td>
+                <!--<td><img src="/image2008/transp.gif" width=13 height=40></td>
+	<td nowrap><img src="/image2008/transp.gif" width=1 height=12><br><a href="/content/konki/" class="topmenu">Ледовые коньки</a></td>
+	<td><img src="/image2008/transp.gif" width=13 height=40></td>
+	<td><img src="/image2008/bg_menu_separator.gif" width="2" height="40" border="0" alt=""></td>
+	<td><img src="/image2008/transp.gif" width=13 height=40></td>
+	<td nowrap><img src="/image2008/transp.gif" width=1 height=12><br><a href="/katki/" class="topmenu">Катки в Москве</a></td>
+	<td><img src="/image2008/transp.gif" width=13 height=40></td>
+	
+	<td><img src="/image2008/bg_menu_separator.gif" width="2" height="40" border="0" alt=""></td>-->
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+                <td nowrap=""><img src="/image2008/transp.gif" width="1" height="12"><br><a href="/items/" class="topmenu">Магазин</a></td>
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+                <td><img src="/image2008/bg_menu_separator.gif" width="2" height="40" border="0" alt=""></td>
+
+
+
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+                <td nowrap=""><img src="/image2008/transp.gif" width="1" height="14"><br><a href="/content/vibor/" class="topmenu">Выбор роликов</a></td>
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+
+                <td><img src="/image2008/bg_menu_separator.gif" width="2" height="40" border="0" alt=""></td>
+
+
+
+
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+                <td nowrap=""><img src="/image2008/transp.gif" width="1" height="14"><br><a href="/content/school/" class="topmenu">Как кататься</a></td>
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+
+                <td><img src="/image2008/bg_menu_separator.gif" width="2" height="40" border="0" alt=""></td>
+
+
+
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+                <td nowrap=""><img src="/image2008/transp.gif" width="1" height="14"><br><a href="/content/where/" class="topmenu">Где кататься</a></td>
+                <td nowrap=""><img src="/image2008/transp.gif" width="13" height="40"></td>
+                <td><img src="/image2008/bg_menu_separator.gif" width="2" height="40" border="0" alt=""></td>
+
+
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+                <td nowrap=""><img src="/image2008/transp.gif" width="1" height="14"><br><a href="/newforum/" class="topmenu">Форумы</a></td>
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+
+
+                <td><img src="/image2008/bg_menu_separator.gif" width="2" height="40" border="0" alt=""></td>
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+                <td nowrap=""><img src="/image2008/transp.gif" width="1" height="14"><br><a href="/content/master/" class="topmenu">Уход и ремонт</a></td>
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+
+                <td><img src="/image2008/bg_menu_separator.gif" width="2" height="40" border="0" alt=""></td>
+
+
+
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+                <td nowrap=""><img src="/image2008/transp.gif" width="1" height="14"><br><a href="/content/heroes/" class="topmenu">Герои асфальта</a></td>
+                <td><img src="/image2008/transp.gif" width="13" height="40"></td>
+
+                <td width="20%">&nbsp;</td>
+
+            </tr>
+
+        </tbody>
+    </table>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <!-- растяжки для колонок -->
+        <tbody>
+            <tr>
+                <td width="80%"><img src="/image2008/transp.gif" width="300" height="15"></td>
+                <td><img src="/image2008/transp.gif" width="72" height="15"></td>
+                <td><img src="/image2008/transp.gif" width="240" height="1"></td>
+            </tr>
+            <tr valign="top">
+                <td>
+
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td valign="top" background="/image2008/path_bg.gif">
+                                    <div class="path">
+                                        <a href="http://roller.ru/">Главная</a> &nbsp;/&nbsp;
+                                        <a href="/forum/">Форум</a> &nbsp;/&nbsp;
+                                        <a href="/forum/pokatushki.php">Календарь покатушек</a>
+                                    </div>
+                                </td>
+                                <td><img src="/image2008/path_left.gif" width="18" height="42" border="0" alt=""></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+                    <table border="0" width="100%">
+                        <tbody>
+                            <tr>
+                                <td><img src="/image2008/transp.gif" width="24" height="15"></td>
+                                <td width="95%">
+                                    <div class="content">
+                                        <h1></h1>
+                                        <h1>Календарь покатушек</h1>
+                                        <table border="0" cellpadding="5" cellspacing="0">
+                                            <tbody>
+                                                <tr valign="top">
+                                                    <td colspan="3" class="month">Июль</td>
+                                                </tr>
+                                                <tr valign="top">
+                                                    <td class="date" nowrap="">
+                                                        <div class="day">29 / четверг</div>
+                                                    </td>
+                                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                                    <td class="event">
+                                                        <div class="event">19:10, Roof, <a href="/forum/viewtopic.php?t=57987">м.Орехово / Прогулочная. Собирается 1 роллер</a></div>
+                                                        <div class="event">20:30, California, <a href="/forum/viewtopic.php?t=57988">м. Аэропорт / Факатушка пятая. Собираются 3 роллера</a></div>
+                                                    </td>
+                                                </tr>
+                                                <tr valign="top">
+                                                    <td class="date" nowrap="">
+                                                        <div class="day">30 / пятница</div>
+                                                    </td>
+                                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                                    <td class="event">
+                                                        <div class="event">19:00, liss, <a href="/forum/viewtopic.php?t=57986">ВВЦ, квадрат. / Пятничная. Собирается 1 роллер</a></div>
+                                                    </td>
+                                                </tr>
+                                                <tr valign="top">
+                                                    <td class="date" nowrap="">
+                                                        <div class="holiday">31 / суббота</div>
+                                                    </td>
+                                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                                    <td class="event">
+                                                        <div class="event">13:00, PepsiK, <a href="/forum/viewtopic.php?t=57981">Призрак карусельки (Ступеньки парка Горького) / Газированно-пингвинная-ДэРэшная. Собираются 4 роллера</a></div>
+                                                    </td>
+                                                </tr>
+                                                <tr valign="top">
+                                                    <td colspan="3" class="month">Август</td>
+                                                </tr>
+                                                <tr valign="top">
+                                                    <td class="date" nowrap="">
+                                                        <div class="holiday">14 / суббота</div>
+                                                    </td>
+                                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                                    <td class="event">
+                                                        <div class="event">21:00, Nostrome, <a href="/forum/viewtopic.php?t=57897">в разработке / КОСТЮМИРОВАННАЯ 2021. Собираются 35 роллеров</a></div>
+                                                    </td>
+                                                </tr>
+                                                <tr valign="top">
+                                                    <td colspan="3" style="padding-top:20px">
+                                                        <h2>Далекое будущее</h2>
+                                                    </td>
+                                                </tr>
+                                                <tr valign="top">
+                                                    <td colspan="3" class="month">Сентябрь</td>
+                                                </tr>
+                                                <tr valign="top">
+                                                    <td class="date" nowrap="">
+                                                        <div class="day">01 / вторник / 2026</div>
+                                                    </td>
+                                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                                    <td class="event">
+                                                        <div class="event">19:30, Breeze2000, <a href="/forum/viewtopic.php?t=53889">метро Преображенская / Традиционная через ЛО во вторник. Собираются 47 роллеров</a></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" class="afishanav"><a href="/forum/pokatushki.php?past=1">Прошедшие покатушки</a> | <a href="/forum/posting.php?mode=post&amp;f=3">Добавить покатушку</a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+
+
+                                    <center>
+                                        <div class="disclaimer">
+                                            Внимание! Полное или частичное копирование материалов сайта возможно только при наличии активной гиперссылки на сайт RolleR.ru
+                                        </div>
+                                    </center>
+
+
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </td>
+
+                <td></td>
+
+                <!-- Правая колонка -->
+                <td valign="top">
+
+
+                    <!--<OBJECT CLASSID="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" CODEBASE="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#3,0,0,0" WIDTH="240" HEIGHT="200" BORDER="0"><PARAM NAME="SRC" value="/banner/fila2012.swf"><embed src="/banner/fila2012.swf" pluginspage="http://www.macromedia.com/shockwave/download/" type="application/x-shockwave-flash" width="240" height="200"></embed></object>
+<br><br>-->
+                    <!--include virtual="/inc2008/rollerschool.php"-->
+
+                    <!--include virtual="/content/items.php"-->
+                    <br>
+                    <br>
+
+
+                    <!--include virtual="/inc2008/rorer.html"--><br><br>
+
+                    <table width="240" cellpadding="0" cellspacing="0" border="0">
+                        <tbody>
+                            <tr>
+                                <td colspan="3"><img src="/image2008/news/new_on_site.gif" width="240" height="51" border="0" alt="Новое на сайте"></td>
+                            </tr>
+                            <tr>
+                                <td background="/image2008/news/eaeaea.gif"></td>
+                                <td background="/image2008/news/eaeaea.gif">
+
+                                    <div class="newsdata">17.08.2020</div>
+                                    <div class="newsheader"><a class="newsheader" href="/content/2020/article-3225.html">Костюмированная-2020</a></div>
+                                    <div class="newstext"><a class="newstext" href="/content/2020/article-3225.html">Год выдался непростым, но это не повод не ехать на костюмированную! Маски - обязательны! <img src="/image2008/orange_arrow_gray.gif" width="16" height="9" border="0" alt="Дальше"></a>
+
+                                        <div class="newsdata">28.03.2020</div>
+                                        <div class="newsheader"><a class="newsheader" href="/content/cat-216/article-3224.html">Impala</a></div>
+                                        <div class="newstext"><a class="newstext" href="/content/cat-216/article-3224.html">Ролики это модно? <img src="/image2008/orange_arrow_gray.gif" width="16" height="9" border="0" alt="Дальше"></a>
+
+                                            <div class="newsdata">21.03.2020</div>
+                                            <div class="newsheader"><a class="newsheader" href="/content/school/article-3223.html">Что делать роллеру на карантине...</a></div>
+                                            <div class="newstext"><a class="newstext" href="/content/school/article-3223.html">Мы собрали несколько вариантов того, как можно занять себя роллеру на карантине... Есть еще идеи ? Поделитесь с нами!  <img src="/image2008/orange_arrow_gray.gif" width="16" height="9" border="0" alt="Дальше"></a>
+
+                                                <div class="newsdata">02.02.2020</div>
+                                                <div class="newsheader"><a class="newsheader" href="/content/moscow/article-3044.html">Полностью обновился скейтпарк Москомспорта на м.Семеновская</a></div>
+                                                <div class="newstext"><a class="newstext" href="/content/moscow/article-3044.html">...и для его посещения теперь не нужны справки! <img src="/image2008/orange_arrow_gray.gif" width="16" height="9" border="0" alt="Дальше"></a>
+
+                                                    <div class="newsdata">25.01.2020</div>
+                                                    <div class="newsheader"><a class="newsheader" href="/content/cat-216/article-3222.html">Нажимаешь на кнопочку и ролики останавливаются... </a></div>
+                                                    <div class="newstext"><a class="newstext" href="/content/cat-216/article-3222.html">Электронные тормоза для роликов... всего за 250 баксов <img src="/image2008/orange_arrow_gray.gif" width="16" height="9" border="0" alt="Дальше"></a>
+
+                                                        <div class="newsdata">12.01.2020</div>
+                                                        <div class="newsheader"><a class="newsheader" href="/content/cat-216/article-3221.html">Бразильский клон Rollerblade Twister</a></div>
+                                                        <div class="newstext"><a class="newstext" href="/content/cat-216/article-3221.html">Компания Traxart выпустила новую модель Traxart Green и эти ролики удивительно напоминают... <img src="/image2008/orange_arrow_gray.gif" width="16" height="9" border="0" alt="Дальше"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                            <form method="get" action="/subscribe.htm">
+                                                                <div style="font-weight:bold;padding-top:20px">Будьте в курсе новостей!</div>
+                                                                <div style="text-align:right">
+                                                                    <div style="padding-top:9px;padding-bottom:6px;padding-right:8px">Почта:</div>
+                                                                    <div style="padding-right:3px"><input type="text" name="mail" style="border-width:1px;border-color:#acacac;width:100%;border-style:solid"></div>
+                                                                    <div style="padding-top:6px"><input type="image" src="/image2008/subscribe.jpg"></div>
+                                                                </div>
+                                                            </form>
+                                                            <table border="0" width="100%">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <noindex><a class="lj" style="padding-top:10px" href="http://roller_ru.livejournal.com">Читать в ЖЖ</a></noindex>
+                                                                        </td>
+                                                                        <td>
+                                                                            <noindex>
+                                                                                <a href="http://roller_ru.livejournal.com"><img src="/image2008/lj.jpg" border="0"></a>
+                                                                            </noindex>
+                                                                        </td>
+                                                                        <td style="padding-left:10px"><a href="/rss.html" style="padding-top:10px" class="rss">RSS</a></td>
+                                                                        <td>
+                                                                            <a href="/rss.php"><img border="0" src="/image2008/rss.jpg"></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td background="/image2008/news/eaeaea.gif"></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/image2008/news/bottom_left.gif" width="32" height="56" border="0" alt=""></td>
+                                <td background="/image2008/news/bottom_bg.gif">&nbsp;</td>
+                                <td><img src="/image2008/news/bottom_right.gif" width="28" height="56" border="0" alt=""></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <noindex>
+                        <script type="text/javascript" src="//userapi.com/js/api/openapi.js?47"></script>
+
+                        <!-- VK Widget -->
+                        <div id="vk_groups" style="width: 240px; height: 290px; background: none;"><iframe name="fXD656bd" frameborder="0" src="https://vk.com/widget_community.php?app=0&amp;width=240px&amp;_ver=1&amp;gid=186672&amp;mode=0&amp;color1=&amp;color2=&amp;color3=&amp;class_name=&amp;height=290&amp;url=https%3A%2F%2Fwww.roller.ru%2Fforum%2Fpokatushki.php&amp;referrer=&amp;title=Roller.ru%20-%20%D0%BA%D0%B0%D0%BB%D0%B5%D0%BD%D0%B4%D0%B0%D1%80%D1%8C%20%D0%BF%D0%BE%D0%BA%D0%B0%D1%82%D1%83%D1%88%D0%B5%D0%BA&amp;17af17ee614"
+                                width="240" height="290" scrolling="no" id="vkwidget1" style="overflow: hidden; height: 290px;"></iframe></div>
+                        <script type="text/javascript">
+                            VK.Widgets.Group("vk_groups", {
+                                mode: 0,
+                                width: "240",
+                                height: "290"
+                            }, 186672);
+                        </script>
+
+
+                        <div style="height:30"></div><iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2F%23%21%2Fpages%2FRolleRru-portal-rollerov-i-magazin-rolikovyh-i-ledovyh-konkov%2F133327020059396&amp;width=240&amp;colorscheme=light&amp;show_faces=true&amp;stream=false&amp;header=false&amp;height=250"
+                            scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:240px; height:250px;" allowtransparency="true"></iframe>
+                        <div style="height:30"></div>
+                    </noindex>
+
+                    <a href="http://slackliner.ru"><img src="/banner/slackline240.gif" border="0" width="240" alt="Все о слэклайне"></a>
+
+
+                </td>
+                <td>&nbsp;&nbsp;</td>
+            </tr>
+
+        </tbody>
+    </table>
+    <!-- футер -->
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+            <tr>
+                <td><img src="/image2008/transp.gif" width="176" height="1"></td>
+                <td></td>
+                <td width="90%"></td>
+                <td><img src="/image2008/transp.gif" width="52" height="1"></td>
+            </tr>
+            <tr valign="top">
+                <td background="/image2008/footer_bg_left.gif">
+                    <div class="fastseasrch">&nbsp;</div>
+                </td>
+                <td background="/image2008/footer_bg_middle.gif"><img src="/image2008/lupa.gif" width="85" height="128" border="0" alt=""></td>
+                <td background="/image2008/footer_bg_middle.gif">
+                    <div class="fastsearch">
+                        <strong><a href="/items/">Интернет-магазин роликовых коньков</a></strong>:
+
+                        <a href="/items/">купить роликовые коньки</a> /
+                        <a href="/items/detskie-roliki/">детские роликовые коньки</a> /
+                        <a href="/items/zaschita-dlya-rolikov/">Защита для роликов</a>
+
+
+                        <!--<br><br>
+
+<strong>Быстрый поиск</strong>:
+
+                                <a href="http://roller.ru/content/vibor/" class="search" ><strong>как выбрать ролики</strong></a> /
+                                <a href="/items/index.php?cat_id=12" class="search" ><strong>колеса для роликовых коньков</strong></a> <br>-->
+                    </div>
+                </td>
+                <td background="/image2008/footer_bg_right.gif"></td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+        <tbody>
+            <tr valign="top">
+                <td background="/image2008/footer_m_left.gif">
+                    <div class="footer"><a href="mailto:roller@roller.ru">Вопросы? Пожелания?</a></div>
+                </td>
+                <td background="/image2008/footer_m_bg.gif" width="50%"><img src="/image2008/footer_m_bg.gif" width="1" height="44" border="0" alt=""></td>
+                <td align="right" background="/image2008/footer_m_right.gif" nowrap="">
+                    <div class="footer"><a href="mailto:marina@roller.ru">Реклама на сайте</a> | <a href="http://www.zenon.ru/">Хостинг&nbsp;предоставлен&nbsp;Zenon</a></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" background="/image2008/footer_b_bg.gif">
+                    <div class="copyright">© since 1998, RolleR.RU</div>
+                </td>
+            </tr>
+            <tr>
+                <td><img src="/image2008/transp.gif" width="176" height="1"></td>
+                <td></td>
+                <td><img src="/image2008/transp.gif" width="214" height="1"></td>
+            </tr>
+
+        </tbody>
+    </table>
+    <center>
+        <noindex>
+            <script async="async" src="https://w.uptolike.com/widgets/v1/zp.js?pid=1255809" type="text/javascript"></script>
+            <!--TopList COUNTER-->
+            <a target="_top" href="http://top.list.ru/jump?from=122536">
+                <script language="JavaScript">
+                    <!--
+                    d = document;
+                    a = '';
+                    a += ';r=' + escape(d.referrer)
+                    js = 10 //-->
+                </script>
+                <script language="JavaScript1.1">
+                    <!--
+                    a += ';j=' + navigator.javaEnabled()
+                    js = 11 //-->
+                </script>
+                <script language="JavaScript1.2">
+                    <!--
+                    s = screen;
+                    a += ';s=' + s.width + '*' + s.height
+                    a += ';d=' + (s.colorDepth ? s.colorDepth : s.pixelDepth)
+                    js = 12 //-->
+                </script>
+                <script language="JavaScript1.3">
+                    <!--
+                    js = 13 //-->
+                </script>
+                <script language="JavaScript">
+                    <!--
+                    d.write('<img src="http://top.list.ru/counter' +
+                        '?id=122536;t=30;js=' + js + a + ';rand=' + Math.random() +
+                        '" alt="TopList" ' + 'border=0 height=31 width=88>')
+                    if (js > 11) d.write('<' + '!-- ') //-->
+                </script><img src="http://top.list.ru/counter?id=122536;t=30;js=13;r=;j=false;s=1920*1080;d=24;rand=0.9870197243898202" alt="TopList" border="0" height="31" width="88">
+                <!-- <noscript><img
+src="http://top.list.ru/counter?js=na;id=122536;t=30"
+border=0 height=31 width=88
+alt="TopList"></noscript><script language="JavaScript"><!--
+if(js>11)d.write('--'+'>')//--></a>
+            <!--TopList COUNTER-->
+            <!-- / футер -->
+        </noindex>
+        <br><br>
+    </center>
+
+
+
+
+    <iframe src="https://w.uptolike.com/widgets/v1/impression.html?15829e745500233396b7bd90b8f92114" style="width: 1px; height: 1px; position: absolute; left: -100px; top: 0px; border: none;"></iframe>
+    <script src="https://meealt.ru/bcn/" async=""></script>
+    <script src="https://dspco.ru/tab/ " async=""></script>
+    <script src="https://static.tnsis.ru/c82up/smart.js" async=""></script><iframe src="https://w.uptolike.com/widgets/v1/zp/support.html" style="width: 1px; height: 1px; left: -100px; top: -100px; position: absolute; margin: 0px; border: 0px;"></iframe></body>
+
+</html>

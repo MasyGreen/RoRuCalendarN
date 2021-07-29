@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRuCalendarN.Android", "RoRuCalendarN\RoRuCalendarN.Android\RoRuCalendarN.Android.csproj", "{0BFC0313-DCBB-4CA0-9EBF-32700F07C80C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoRuCalendarN", "RoRuCalendarN\RoRuCalendarN\RoRuCalendarN.csproj", "{69923017-1034-4AC7-9546-9B38C3E96EE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoRuCalendarN", "RoRuCalendarN\RoRuCalendarN\RoRuCalendarN.csproj", "{69923017-1034-4AC7-9546-9B38C3E96EE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{19ADA134-534C-4ABC-B6B5-D40F3699EAD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{69923017-1034-4AC7-9546-9B38C3E96EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69923017-1034-4AC7-9546-9B38C3E96EE2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{69923017-1034-4AC7-9546-9B38C3E96EE2}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{19ADA134-534C-4ABC-B6B5-D40F3699EAD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19ADA134-534C-4ABC-B6B5-D40F3699EAD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19ADA134-534C-4ABC-B6B5-D40F3699EAD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19ADA134-534C-4ABC-B6B5-D40F3699EAD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

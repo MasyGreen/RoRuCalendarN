@@ -57,10 +57,12 @@
     <BundleAssemblies>false</BundleAssemblies>
     <MandroidI18n>CJK;Mideast;Rare;West;Other</MandroidI18n>
     <AndroidUseAapt2>true</AndroidUseAapt2>
-    <AndroidLinkTool>r8</AndroidLinkTool>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+    <AndroidKeyStore>true</AndroidKeyStore>
+    <AndroidSigningKeyStore>C:\Users\masygreen\AppData\Local\Xamarin\Mono for Android\Keystore\masygreen\masygreen.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>FORUM!@#$forum1234</AndroidSigningStorePass>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
