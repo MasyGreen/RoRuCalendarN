@@ -24,12 +24,12 @@ namespace RoRuCalendarN
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(htmllink);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            StreamReader sr = new StreamReader(response.GetResponseStream());
+            StreamReader sr = new(response.GetResponseStream());
             string srhtml = sr.ReadToEnd();
             sr.Close();
 
-            HtmlParser parser = new HtmlParser();
-            List<string> memberlist = new List<string>();
+            HtmlParser parser = new();
+            List<string> memberlist = new();
             IHtmlDocument doc01 = parser.ParseDocument(srhtml);
             foreach (IElement el01 in doc01.QuerySelectorAll("table[class='tablebg']"))
             {
@@ -65,9 +65,8 @@ namespace RoRuCalendarN
             }
             #endregion
 
-            string resulthtml = "";
             #region Генерация HTML с списком участников (5 первых и остальные hide-more)
-            resulthtml = "<div>\n";
+            string resulthtml = "<div>\n";
             resulthtml += $"{firstpart.Trim().TrimEnd(',')}\n";
             if (!string.IsNullOrEmpty(secondpart))
                 resulthtml += $"<span class=\"more\"> еще...</span>\n<span class=\"expanding\">{secondpart.Trim().TrimEnd(',')}</span>\n";
@@ -87,11 +86,11 @@ namespace RoRuCalendarN
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(htmllink);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(1251));
+            StreamReader sr = new(response.GetResponseStream(), Encoding.GetEncoding(1251));
             string srhtml = sr.ReadToEnd();
             sr.Close();
 
-            HtmlParser parser = new HtmlParser();
+            HtmlParser parser = new();
             IHtmlDocument doc01 = parser.ParseDocument(srhtml);
 
             #region Начало страницы
@@ -170,7 +169,7 @@ namespace RoRuCalendarN
             resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"frm\">masygreen &copy; 2021</td></tr>\n";
             resulthtml += "</tbody></table></body></html>";
 
-            HtmlWebViewSource htmlwebviewsource = new HtmlWebViewSource { Html = resulthtml };
+            HtmlWebViewSource htmlwebviewsource = new() { Html = resulthtml };
 
             return htmlwebviewsource;
         }
