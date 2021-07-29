@@ -60,7 +60,7 @@
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
-    <AndroidKeyStore>true</AndroidKeyStore>
+    <AndroidKeyStore>false</AndroidKeyStore>
     <AndroidSigningKeyStore>C:\Users\masygreen\AppData\Local\Xamarin\Mono for Android\Keystore\masygreen\masygreen.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>FORUM!@#$forum1234</AndroidSigningStorePass>
   </PropertyGroup>
