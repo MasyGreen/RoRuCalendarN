@@ -226,8 +226,6 @@ namespace RoRuCalendarN
             }
             else { resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"frm\">Что-то пошло не так...</td></tr>\n"; }
 
-            resulthtml +=
-                "<tr valign=\"top\"><td colspan=\"3\" class=\"frm\"><a href=\"https://www.roller.ru/forum/\">Форум. Главная страница</a></td></tr>\n";
             resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"line -break\"></td></tr>\n";
             resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"frm\">masygreen &copy; 2021</td></tr>\n";
             resulthtml += "</tbody></table></body></html>";
@@ -257,14 +255,15 @@ namespace RoRuCalendarN
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
 
+            ToolbarItems.Add(new ToolbarItem("roru", "roru.png", () => { Browser.OpenAsync("https://www.roller.ru/forum", BrowserLaunchMode.SystemPreferred); }));
             ToolbarItems.Add(new ToolbarItem("Instagram", "instagram.png", () => { Browser.OpenAsync("https://www.instagram.com/roller.ru", BrowserLaunchMode.SystemPreferred); }));
             ToolbarItems.Add(new ToolbarItem("Telegram", "telegram.png", () => { Browser.OpenAsync("https://t.me/mskrollerru", BrowserLaunchMode.SystemPreferred); }));
             ToolbarItems.Add(new ToolbarItem("VK", "vk.png", () => { Browser.OpenAsync("https://vk.com/mskroller ", BrowserLaunchMode.SystemPreferred); }));
 
             ToolbarItems.Add(new ToolbarItem("|", "", () => { }));
 
-            ToolbarItems.Add(new ToolbarItem("Обновить", "", () => { webView.Source = GetSourseHtml(); }));
-            ToolbarItems.Add(new ToolbarItem("Назад", "", () => { webView.GoBack(); }));
+            ToolbarItems.Add(new ToolbarItem("Refresh", "refresh.png", () => { webView.Source = GetSourseHtml(); }));
+            ToolbarItems.Add(new ToolbarItem("Back", "back.png", () => { webView.GoBack(); }));
 
             Content = new StackLayout { Children = { webView } };
         }
