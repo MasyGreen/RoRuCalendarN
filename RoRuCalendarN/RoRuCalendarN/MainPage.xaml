@@ -2,6 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RoRuCalendarN.MainPage">
+    <NavigationPage.TitleView>
+        <Label x:Name="curversoin" Opacity="0.5" Font="Bold,20" Text=""/>
+    </NavigationPage.TitleView>
     <ContentPage.Content>
         <StackLayout>
             <WebView x:Name="webView" VerticalOptions="FillAndExpand" />

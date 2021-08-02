@@ -28,7 +28,7 @@ namespace TestProject
             string result = mp.ParseMainPage(resultrhtml, false);
 
             // Assert.IsFalse(result, "1 should not be prime");
-            Assert.AreEqual("", "", $"Ошибка:{resultrhtml}");
+            Assert.AreEqual("", result, $"Ошибка:{resultrhtml}");
         }
     }
 }
