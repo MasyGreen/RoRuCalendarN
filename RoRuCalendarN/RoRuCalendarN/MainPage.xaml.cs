@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
@@ -245,15 +246,18 @@ namespace RoRuCalendarN
             return htmlwebviewsource;
         }
 
+        private async Task<bool> LoadData()
+        {
+            webView.Source = GetSourseHtml();
+            await Navigation.PopAsync();
+            return true;
+        }
+
         public MainPage()
         {
             InitializeComponent();
 
-            webView = new WebView
-            {
-                Source = GetSourseHtml(),
-                VerticalOptions = LayoutOptions.FillAndExpand
-            };
+            webView = new WebView { VerticalOptions = LayoutOptions.FillAndExpand };
 
             curversoin.Text = $"{AppInfo.VersionString}";
 
@@ -264,10 +268,27 @@ namespace RoRuCalendarN
 
             ToolbarItems.Add(new ToolbarItem("|", "", () => { }));
 
-            ToolbarItems.Add(new ToolbarItem("Refresh", "refresh.png", () => { webView.Source = GetSourseHtml(); }));
+            ToolbarItems.Add(new ToolbarItem("Refresh", "refresh.png", () =>
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Device.InvokeOnMainThreadAsync(async () => { await LoadData(); });
+                });
+
+            }));
+
             ToolbarItems.Add(new ToolbarItem("Back", "back.png", () => { webView.GoBack(); }));
 
             Content = new StackLayout { Children = { webView } };
+        }
+
+        /// <summary>
+        /// Запуск первичный
+        /// </summary>
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await LoadData();
         }
 
         /// <summary>
