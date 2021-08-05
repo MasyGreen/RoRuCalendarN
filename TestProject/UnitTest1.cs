@@ -14,7 +14,7 @@ namespace TestProject
         [TestMethod]
         public void TestMainPage()
         {
-            string resultrhtml = "";
+            string resultrhtml = "<root/>";
             string filename = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\MAIN_PAGE.html";
             if (File.Exists(filename))
             {
