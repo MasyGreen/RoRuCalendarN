@@ -265,8 +265,7 @@ namespace RoRuCalendarN
 
             webView = new WebView { VerticalOptions = LayoutOptions.FillAndExpand };
 
-            curversoin.Text = $"{AppInfo.VersionString}";
-
+            ToolbarItems.Add(new ToolbarItem("Settings", "settings.png", async () => { await Navigation.PushModalAsync(new SettingsPage()); }));
             ToolbarItems.Add(new ToolbarItem("roru", "roru.png", () => { Browser.OpenAsync("https://www.roller.ru/forum", BrowserLaunchMode.SystemPreferred); }));
             ToolbarItems.Add(new ToolbarItem("Instagram", "instagram.png", () => { Browser.OpenAsync("https://www.instagram.com/roller.ru", BrowserLaunchMode.SystemPreferred); }));
             ToolbarItems.Add(new ToolbarItem("Telegram", "telegram.png", () => { Browser.OpenAsync("https://t.me/mskrollerru", BrowserLaunchMode.SystemPreferred); }));

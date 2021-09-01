@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RoRuCalendarN.SettingsPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid Padding="20" RowSpacing="10" VerticalOptions="Fill">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height ="*"/>
+                    <RowDefinition Height ="*"/>
+                    <RowDefinition Height ="*"/>
+                    <RowDefinition Height ="*"/>
+                    <RowDefinition Height ="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalTextAlignment="Center" TextColor="#E87400" FontAttributes="Bold" FontSize="Large" Text="Настройки"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+
+                <Label Grid.Row="1" Grid.Column="0" VerticalTextAlignment="Center" TextColor="#666666" FontSize="Medium" FontAttributes="Bold"  Text="Пользователь"/>
+                <Entry  Grid.Row="1" Grid.Column="1" FontSize="Medium" TextColor="#666666" x:Name="LabelSettingsUserName" />
+
+                <Label Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center" TextColor="#666666" FontSize="Medium" FontAttributes="Bold" Text="Пароль"/>
+                <Entry  Grid.Row="2" Grid.Column="1" FontSize="Medium" TextColor="#666666" IsPassword="True" x:Name="LabelSettingsUserPassword" />
+
+                <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Text="Сохранить" Clicked="OnClickSave" TextColor="#666666" BackgroundColor="#E87400"/>
+
+                <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Text="Отмена" Clicked="OnClickExit" TextColor="#666666" BackgroundColor="#E87400"/>
+
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
