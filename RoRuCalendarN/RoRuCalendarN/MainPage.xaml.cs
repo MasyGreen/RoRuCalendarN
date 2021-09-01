@@ -51,6 +51,8 @@ namespace RoRuCalendarN
 
             if (!string.IsNullOrEmpty(pagehtml))
             {
+                bool havemember = false;
+                bool isfirst = true;
                 HtmlParser parser = new();
                 IHtmlDocument doc01 = parser.ParseDocument(pagehtml);
                 foreach (IElement el01 in doc01.QuerySelectorAll("table[class='tablebg']"))
@@ -69,13 +71,14 @@ namespace RoRuCalendarN
                                     .ToList())
                                 {
                                     memberlist.Add($"{el05.InnerHtml}");
+                                    havemember = true;
                                 }
-
                                 break;
                             }
                         }
                     }
-                    break;
+                    if (havemember || !isfirst) break;
+                    else isfirst = false;
                 }
             }
 
@@ -112,7 +115,7 @@ namespace RoRuCalendarN
         /// <returns></returns>
         public string ParseMainPage(string pagehtml, bool isaddmemberr)
         {
-            #region Начало страницы
+            #region Начало страницы + CSS
             string resulthtml = "<html>\n" +
                                 "<style>\n" +
                                 "       body{font-family:Arial,Sans-serif;font-size:12px;color:#666666;}\n" +
@@ -129,10 +132,13 @@ namespace RoRuCalendarN
                                 "       div:hover>.more{display: none;}\n" +
                                 "       .member{font-size: 12px;font-style: italic;color:gray;}\n" +
                                 "       .linebreak {border-bottom:1px solid lightgray;}\n" +
-                                "    </style>\n" +
-                                "<body><h1>Календарь покатушек</h1>\n";
+                                "       table{width:100%;}\n" +
+                                "    </style>\n";
             #endregion
-            resulthtml += "<table border=\"0\" cellpadding=\"5\" cellspacing=\"0\"><tbody>\n";
+
+            resulthtml += "<body><h1>Календарь покатушек</h1>\n";
+
+            resulthtml += "<table border=\"0\" cellpadding=\"5\" cellspacing=\"0\"><tbody>\n";//Начало таблицы
 
             if (!string.IsNullOrEmpty(pagehtml))
             {
@@ -227,9 +233,9 @@ namespace RoRuCalendarN
             }
             else { resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"frm\">Что-то пошло не так...</td></tr>\n"; }
 
-            resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"line -break\"></td></tr>\n";
-            resulthtml += "<tr valign=\"top\"><td colspan=\"3\" class=\"frm\">masygreen &copy; 2021</td></tr>\n";
-            resulthtml += "</tbody></table></body></html>";
+            resulthtml += $"<tr valign=\"top\"><td colspan=\"3\" class=\"frm\">masygreen &copy; 2021 v{AppInfo.VersionString}</td></tr>\n";
+            resulthtml += "</tbody></table>";//Конец таблицы
+            resulthtml += "</body></html>";//Конец страницы
 
             return resulthtml;
         }
